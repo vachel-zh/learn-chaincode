@@ -41,8 +41,8 @@ func (t *Test1Chaincode) Invoke(stub shim.ChaincodeStubInterface, function strin
 		return t.Init(stub, "init", args)
 	} else if function == "insert" {
 		var row shim.Row
-		row.Columns[0] = &shim.Column{&shim.Column_String_{"1001"}}
-		row.Columns[1] = &shim.Column{&shim.Column_String_{"13401055240"}}
+		row.Columns[0] = &shim.Column{&shim.Column_String_{args[0]}}
+		row.Columns[1] = &shim.Column{&shim.Column_String_{args[1]}}
 		stub.InsertRow("mg_user", row)
 		return nil, nil
 	}
@@ -58,7 +58,7 @@ func (t *Test1Chaincode) Query(stub shim.ChaincodeStubInterface, function string
 	// Handle different functions
 	if function == "read" { //read a variable
 		var key []shim.Column
-		key[0] = shim.Column{&shim.Column_String_{"1001"}}
+		key[0] = shim.Column{&shim.Column_String_{args[0]}}
 		row, err := stub.GetRow("mg_user", key)
 		return []byte(row.String()), err
 	}
